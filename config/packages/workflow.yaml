@@ -1,0 +1,26 @@
+framework:
+    workflows:
+        chat_room:
+            type: 'state_machine'
+            initial_place: start
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'currentState'
+            supports:
+                - App\Entity\ChatRoom
+            places:
+                - start
+                - home
+                - rubric
+                - latest_news
+            transitions:
+                to_home:
+                    from: [start, rubric, latest_news]
+                    to: home
+                to_latest_news:
+                    from: home
+                    to: latest_news
+                to_rubric:
+                    from: home
+                    to: rubric

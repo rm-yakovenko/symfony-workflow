@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\ChatRoom;
-use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,13 +14,10 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(Request $request, ContainerInterface $container)
+    public function index(Request $request, StateMachine $chatRoomStateMachine)
     {
         $chatRoom = new ChatRoom();
         $chatRoom->setCurrentState($request->getSession()->get('currentState'));
-
-        /** @var StateMachine $chatRoomStateMachine */
-        $chatRoomStateMachine = $container->get('state_machine.chat_room');
 
         $transition = $request->request->get('transition');
         $error = null;
